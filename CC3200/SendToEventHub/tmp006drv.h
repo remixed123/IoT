@@ -1,7 +1,5 @@
 //*****************************************************************************
-// pinmux.h
-//
-// function prototype for pinmuxconfig
+// TMP006Drv.h - Defines and Macros for the TMP006Drv interface.
 //
 // Copyright (C) 2014 Texas Instruments Incorporated - http://www.ti.com/ 
 // 
@@ -36,14 +34,54 @@
 //
 //*****************************************************************************
 
-// This file was automatically generated on 7/21/2014 at 3:06:20 PM
-// by TI PinMux version 3.0.334
+#ifndef __TMP006DRV_H__
+#define __TMP006DRV_H__
+
+//*****************************************************************************
+//
+// If building with a C++ compiler, make all of the definitions in this header
+// have a C binding.
 //
 //*****************************************************************************
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+//*****************************************************************************
+// TMP006 Device I2C address
+//*****************************************************************************
+#define TMP006_DEV_ADDR         0x41
 
-#ifndef __PINMUX_H__
-#define __PINMUX_H__
+//*****************************************************************************
+// TMP006 Register offset address
+//*****************************************************************************
+#define TMP006_VOBJECT_REG_ADDR         0x0
+#define TMP006_TAMBIENT_REG_ADDR        0x1
+#define TMP006_CONFIG_REG_ADDR          0x2
+#define TMP006_MANUFAC_ID_REG_ADDR      0xFE
+#define TMP006_DEVICE_ID_REG_ADDR       0xFF
 
-extern void PinMuxConfig(void);
+//*****************************************************************************
+// TMP006 Device details
+//*****************************************************************************
+#define TMP006_MANUFAC_ID       0x5449
+#define TMP006_DEVICE_ID        0x0067
 
-#endif //  __PINMUX_H__
+//*****************************************************************************
+//
+// API Function prototypes
+//
+//*****************************************************************************
+int TMP006DrvOpen();
+int TMP006DrvGetTemp(float *pfCurrTemp);
+
+//*****************************************************************************
+//
+// Mark the end of the C bindings section for C++ compilers.
+//
+//*****************************************************************************
+#ifdef __cplusplus
+}
+#endif
+
+#endif //  __TMP006DRV_H__
