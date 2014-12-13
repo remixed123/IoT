@@ -103,7 +103,7 @@
 //                          EVENT HUB SERVER DEFINES
 //*****************************************************************************
 
-#define EH_SERVER_NAME		     "swiftsoftware-ns.servicebus.windows.net" // You will need change this to reflect your details
+#define EH_SERVER_NAME		 "svrbusnamespace.servicebus.windows.net" // You will need change this to reflect your details
 #define SSL_DST_PORT             443
 
 //*****************************************************************************
@@ -160,15 +160,15 @@
 //
 //*****************************************************************************
 // HTTP POST Header information.
-#define POSTHEADER "POST /swiftsoftware-eh/messages HTTP/1.1\r\n"
-#define HOSTHEADER "Host: swiftsoftware-ns.servicebus.windows.net\r\n"
-#define AUTHHEADER "Authorization: SharedAccessSignature sr=swiftsoftware-ns.servicebus.windows.net&sig=6sIkgCiaNbK9R0XEpsKJcQ2Clv8MUMVdQfEVQP09WkM%3d&se=1733661915&skn=EventHubPublisher\r\n"
+#define POSTHEADER "POST /eventhubname/messages HTTP/1.1\r\n"
+#define HOSTHEADER "Host: svrbusnamespace.servicebus.windows.net\r\n"
+#define AUTHHEADER "Authorization: SharedAccessSignature sr=svrbusnamespace.servicebus.windows.net&sig=7y9igCiaNbK9R0XEpsKJcQ2Clv8MUMVdQfEVQP09WkM%3d&se=1733661915&skn=EventHubPublisher\r\n"
 #define CHEADER "Connection: Keep-Alive\r\n"
 #define CTHEADER "Content-Type: application/json; charset=utf-8\r\n"
 #define CLHEADER1 "Content-Length: "
 #define CLHEADER2 "\r\n\r\n"
 #define DATA1 "{\"MessageType\":\"CC3200 Sensor\",\"Temp\":"
-#define DATA2 ",\"Humidity\":50,\"Location\":\"Glenn's Home\",\"Room\":\"Kitchen\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
+#define DATA2 ",\"Humidity\":50,\"Location\":\"Your Location\",\"Room\":\"Workshop\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
 
 //*****************************************************************************
 //              Application specific status/error codes
