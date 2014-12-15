@@ -1,0 +1,11 @@
+Processing Job
+
+SELECT EventEnqueuedUtcTime, MessageType, Location, Room, Temp, Humidity, Info FROM swiftsoftwareia
+
+
+Averaging Job
+
+SELECT DateAdd(minute,-5,System.TimeStamp) as StartTime, system.TimeStamp as EndTime, 
+Avg(Temp) as AverageTemp, Avg(Humidity) as AverageHumidity, Count(*) as LogCount
+    FROM ehinput
+    GROUP BY TumblingWindow(minute, 5)
