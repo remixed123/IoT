@@ -47,4 +47,3 @@
 extern void PinMuxConfig(void);
 
 #endif //  __PINMUX_H__
-

@@ -45,7 +45,6 @@
 #include "hw_types.h"
 #include "hw_memmap.h"
 #include "hw_gpio.h"
-#include "hw_i2c.h"
 #include "pin.h"
 #include "rom.h"
 #include "rom_map.h"
