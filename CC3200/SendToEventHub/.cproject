@@ -103,7 +103,11 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="ssl.com.ti.ccstudio.buildDefinitions.TMS470.ProjectType.526462191" name="ARM" projectType="com.ti.ccstudio.buildDefinitions.TMS470.ProjectType"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/SendToEventHub"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration"/>
 	<storageModule moduleId="org.eclipse.cdt.core.language.mapping">
 		<project-mappings>

@@ -67,6 +67,9 @@
 #include <string.h>
 #include <stdio.h>
 
+// Project Includes
+#include "simplelinklibrary.h"
+
 //CC3200 LaunchPad includes
 #include "tmp006drv.h"
 
@@ -114,7 +117,7 @@
 //*****************************************************************************
 
 #define APPLICATION_NAME        "SendToEventHub"
-#define APPLICATION_VERSION     "1.1.0"
+#define APPLICATION_VERSION     "1.2.0"
 
 #define OSI_STACK_SIZE          4096
 
@@ -122,7 +125,7 @@
 //                          EVENT HUB SERVER DEFINES
 //*****************************************************************************
 
-#define EH_SERVER_NAME		 "svrbusnamespace.servicebus.windows.net" // You will need change this to reflect your details
+#define EH_SERVER_NAME		     "swiftsoftware-ns.servicebus.windows.net" // You will need change this to reflect your details
 #define SSL_DST_PORT             443
 
 //*****************************************************************************
@@ -174,26 +177,15 @@
 // 3) Update the DATA portion to reflect the details you wish to send.
 //
 //*****************************************************************************
-<<<<<<< HEAD
 #define POSTHEADER "POST /swiftsoftware-eh/messages HTTP/1.1\r\n"
 #define HOSTHEADER "Host: swiftsoftware-ns.servicebus.windows.net\r\n"
 #define AUTHHEADER "Authorization: SharedAccessSignature sr=swiftsoftware-ns.servicebus.windows.net&sig=6sIkgCiaNbK9R0XEpsKJcQ2Clv8MUMVdQfEVQP09WkM%3d&se=1733661915&skn=EventHubPublisher\r\n"
-=======
-// HTTP POST Header information.
-#define POSTHEADER "POST /eventhubname/messages HTTP/1.1\r\n"
-#define HOSTHEADER "Host: svrbusnamespace.servicebus.windows.net\r\n"
-#define AUTHHEADER "Authorization: SharedAccessSignature sr=svrbusnamespace.servicebus.windows.net&sig=7y9igCiaNbK9R0XEpsKJcQ2Clv8MUMVdQfEVQP09WkM%3d&se=1733661915&skn=EventHubPublisher\r\n"
->>>>>>> origin/master
 #define CHEADER "Connection: Keep-Alive\r\n"
 #define CTHEADER "Content-Type: application/json; charset=utf-8\r\n"
 #define CLHEADER1 "Content-Length: "
 #define CLHEADER2 "\r\n\r\n"
 #define DATA1 "{\"MessageType\":\"CC3200 Sensor\",\"Temp\":"
-<<<<<<< HEAD
-#define DATA2 ",\"Humidity\":50,\"Location\":\"Glenn's Home\",\"Room\":\"Office\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
-=======
-#define DATA2 ",\"Humidity\":50,\"Location\":\"Your Location\",\"Room\":\"Workshop\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
->>>>>>> origin/master
+#define DATA2 ",\"Humidity\":50,\"Location\":\"Glenn's Home\",\"Room\":\"Kitchen\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
 
 //*****************************************************************************
 //              Application specific status/error codes
@@ -220,21 +212,6 @@ typedef enum{
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
 //*****************************************************************************
-typedef struct
-{
-   /* time */
-   unsigned long tm_sec;
-   unsigned long tm_min;
-   unsigned long tm_hour;
-   /* date */
-   unsigned long tm_day;
-   unsigned long tm_mon;
-   unsigned long tm_year;
-   unsigned long tm_week_day; //not required
-   unsigned long tm_year_day; //not required
-   unsigned long reserved[3];
-}SlDateTime;
-
 //unsigned long  g_ulStatus = 0;//SimpleLink Status
 unsigned long  g_ulPingPacketsRecv = 0; //Number of Ping Packets received
 //unsigned long  g_ulGatewayIP = 0; //Network Gateway IP address
@@ -242,19 +219,31 @@ unsigned long  g_ulPingPacketsRecv = 0; //Number of Ping Packets received
 unsigned char  g_ucConnectionBSSID[BSSID_LEN_MAX]; //Connection BSSID
 signed char    *g_Host = EH_SERVER_NAME;
 //const char     pcDigits[] = "0123456789"; /* variable used by itoa function */
-SlDateTime g_time;
 #if defined(ccs) || defined(gcc)
 extern void (* const g_pfnVectors[])(void);
 #endif
 unsigned short g_usTimerInts;
 SlSecParams_t SecurityParams = {0};
-SlDateTime g_time;
 
+//*****************************************************************************
+// Globals for Date and Time
+//*****************************************************************************
+SlDateTime_t dateTime =  {0};
+
+//*****************************************************************************
+// Globals for errors
+//*****************************************************************************
 int errorcount = 0;
 int errorcounttime = 0;
 int errorcountpost = 0;
 int lasterrornumber = 0;
-long loopcount = 0;
+
+//*****************************************************************************
+// Globals for time difference calculations
+//*****************************************************************************
+int hourSet = 25; // Ensures the timeDifference calc will end up in a minus, so will enter the function on first pass
+int timeDifference = 0;
+
 
 #if defined(ccs) || defined(gcc)
 extern void (* const g_pfnVectors[])(void);
@@ -333,7 +322,6 @@ SlSockAddrIn_t sLocalAddr;
 void MainTask(void *pvParameters);
 static long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins);
 static void DisplayBanner(char * AppName);
-static int set_time();
 long PostEventHubSSL();
 
 //*****************************************************************************
@@ -394,42 +382,6 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
     char cDataBuf[48];
     long lRetVal = 0;
     int iAddrSize;
-
-//    int iSocketDesc;
-
-//    //
-//    // Create UDP socket - Move to seperate function
-//    //
-//    iSocketDesc = sl_Socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-//    if(iSocketDesc < 0)
-//    {
-//        ERR_PRINT(iSocketDesc);
-//        //goto end;
-//    }
-//    g_sAppData.iSockID = iSocketDesc;
-//
-//    UART_PRINT("Socket created\n\r");
-//
-//    //
-//    // Get the NTP server host IP address using the DNS lookup
-//    //
-//    lRetVal = Network_IF_GetHostIP((char*)g_acSNTPserver, \
-//                                    &g_sAppData.ulDestinationIP);
-//
-//    if( lRetVal >= 0)
-//    {
-//
-//        struct SlTimeval_t timeVal;
-//        timeVal.tv_sec =  SERVER_RESPONSE_TIMEOUT;    // Seconds
-//        timeVal.tv_usec = 0;     // Microseconds. 10000 microseconds resolution
-//        lRetVal = sl_SetSockOpt(g_sAppData.iSockID,SL_SOL_SOCKET,SL_SO_RCVTIMEO,\
-//                        (unsigned char*)&timeVal, sizeof(timeVal));
-//        if(lRetVal < 0)
-//        {
-//           ERR_PRINT(lRetVal);
-//           LOOP_FOREVER();
-//        }
-//    }
 
     //
     // Send a query ? to the NTP server to get the NTP time
@@ -544,7 +496,7 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
         *g_sAppData.pcCCPtr++ = '\x20';
 
         // Set the Month Value
-        g_time.tm_mon = iIndex + 1;
+        dateTime.sl_tm_mon = iIndex + 1;
 
         //
         // date
@@ -557,7 +509,7 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
         *g_sAppData.pcCCPtr++ = '\x20';
 
         // Set the Date
-        g_time.tm_day = g_sAppData.isGeneralVar + 1;
+        dateTime.sl_tm_day = g_sAppData.isGeneralVar + 1;
 
         //
         // time
@@ -575,13 +527,13 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
         *g_sAppData.pcCCPtr++ = ':';
 
         // Set the hour
-        g_time.tm_hour = g_sAppData.ulGeneralVar;
+        dateTime.sl_tm_hour = g_sAppData.ulGeneralVar;
 
         // number of minutes per hour
         g_sAppData.ulGeneralVar = g_sAppData.ulGeneralVar1/SEC_IN_MIN;
 
         // Set the minutes
-        g_time.tm_min = g_sAppData.ulGeneralVar;
+        dateTime.sl_tm_min = g_sAppData.ulGeneralVar;
 
         // number of seconds per minute
         g_sAppData.ulGeneralVar1 %= SEC_IN_MIN;
@@ -595,7 +547,7 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
         *g_sAppData.pcCCPtr++ = '\x20';
 
         //Set the seconds
-        g_time.tm_sec = g_sAppData.ulGeneralVar1;
+        dateTime.sl_tm_sec = g_sAppData.ulGeneralVar1;
 
         //
         // year
@@ -610,7 +562,7 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
         *g_sAppData.pcCCPtr++ = '\0';
 
         //Set the year
-        g_time.tm_year = 2013 + g_sAppData.ulGeneralVar;
+        dateTime.sl_tm_year = 2013 + g_sAppData.ulGeneralVar;
 
         UART_PRINT("response from server: ");
         UART_PRINT((char *)g_acSNTPserver);
@@ -619,7 +571,7 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
         UART_PRINT("\n\r\n\r");
 
         //Set time of the device for certificate verification.
-        lRetVal = set_time();
+        lRetVal = setDeviceTimeDate();
         if(lRetVal < 0)
         {
             UART_PRINT("Unable to set time in the device");
@@ -627,15 +579,15 @@ long GetSNTPTime(unsigned char ucGmtDiffHr, unsigned char ucGmtDiffMins)
             return lRetVal;
         }
 
-        //
-        // Send the JSON packet with temperature to Event Hub
-		lRetVal = PostEventHubSSL();
-		if(lRetVal < 0)
-		{
-			ERR_PRINT(lRetVal);
-			errorcounttime++;
-			//break;
-		}
+//        //
+//        // Send the JSON packet with temperature to Event Hub
+//		lRetVal = PostEventHubSSL();
+//		if(lRetVal < 0)
+//		{
+//			ERR_PRINT(lRetVal);
+//			errorcounttime++;
+//			//break;
+//		}
 
     }
 
@@ -722,35 +674,6 @@ void LedTimerDeinitStop()
     Timer_IF_DeInit(TIMERA0_BASE,TIMER_A);
 }
 
-//*****************************************************************************
-//
-//! This function updates the date and time of CC3200.
-//!
-//! \param None
-//!
-//! \return
-//!     0 for success, negative otherwise
-//!
-//*****************************************************************************
-
-static int set_time()
-{
-    long retVal;
-
-//    g_time.tm_day = DATE;
-//    g_time.tm_mon = MONTH;
-//    g_time.tm_year = YEAR;
-//    g_time.tm_sec = HOUR;
-//    g_time.tm_hour = MINUTE;
-//    g_time.tm_min = SECOND;
-
-    retVal = sl_DevSet(SL_DEVICE_GENERAL_CONFIGURATION,
-                          SL_DEVICE_GENERAL_CONFIGURATION_DATE_TIME,
-                          sizeof(SlDateTime),(_u8 *)(&g_time));
-
-    ASSERT_ON_ERROR(retVal);
-    return SUCCESS;
-}
 
 //*****************************************************************************
 //
@@ -874,7 +797,7 @@ long PostEventHubSSL()
     //
 	TMP006DrvGetTemp(&fCurrentTemp);
     //float cCurrentTemp = 21.27;
-    float cCurrentTemp = (((fCurrentTemp - 32) * 5) / 9) - 3; // Will need to calibrate temperature sensor by adding or subtracting
+    float cCurrentTemp = (((fCurrentTemp - 32) * 5) / 9) - 15; // Will need to calibrate temperature sensor by adding or subtracting
 
     char  cTempChar[5];
     sprintf(cTempChar, "%.2f", cCurrentTemp);
@@ -1100,33 +1023,40 @@ void MainTask(void *pvParameters)
         while(1)
         {
             //
-            // Get the NTP time and display the time
+            // Get the NTP time to use with the SSL process
+        	// Only call this every 4 hours to update the RTC
+        	// As we do not want to be calling the NTP server too often
             //
-            lRetVal = GetSNTPTime(GMT_DIFF_TIME_HRS, GMT_DIFF_TIME_MINS);
-            if(lRetVal < 0)
-            {
-                UART_PRINT("Server Get Time failed\n\r");
-                //break;
-                errorcount++;
-                lasterrornumber = lRetVal;
-            }
+        	getDeviceTimeDate();
+        	timeDifference = dateTime.sl_tm_hour - hourSet; // This roughly works, after midnight it resets.
 
-//            //
-//            // Send the JSON packet with temperature to Event Hub
-//    		lRetVal = PostEventHubSSL();
-//    		if(lRetVal < 0)
-//    		{
-//    			//int y = 1;
-//    			ERR_PRINT(lRetVal);
-//    			break;
-//    		}
+        	if (timeDifference > 1 || timeDifference < 0)
+        	{
+        		hourSet = dateTime.sl_tm_hour; // Set to current hour
+
+				lRetVal = GetSNTPTime(GMT_DIFF_TIME_HRS, GMT_DIFF_TIME_MINS);
+				if(lRetVal < 0)
+				{
+					UART_PRINT("Server Get Time failed\n\r");
+					//break;
+					errorcount++;
+					lasterrornumber = lRetVal;
+				}
+        	}
+
+            //
+            // Send the JSON packet with temperature to Event Hub
+    		lRetVal = PostEventHubSSL();
+    		if(lRetVal < 0)
+    		{
+    			ERR_PRINT(lRetVal);
+    			errorcounttime++;
+    			//break;
+    		}
 
             //
             // Wait a while before resuming
             //
-
-            loopcount++;
-
             MAP_UtilsDelay(SEC_TO_LOOP(SLEEP_TIME));
         }
     }

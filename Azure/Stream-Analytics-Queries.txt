@@ -9,3 +9,5 @@ SELECT DateAdd(minute,-5,System.TimeStamp) as StartTime, system.TimeStamp as End
 Avg(Temp) as AverageTemp, Avg(Humidity) as AverageHumidity, Count(*) as LogCount
     FROM ehinput
     GROUP BY TumblingWindow(minute, 5)
+
+
