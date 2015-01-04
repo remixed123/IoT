@@ -9,9 +9,9 @@ Instructions on setting up the IoT example in your own environment can be found 
 * C# example code for web based examples.
 
 **CC3200 Folder Contents**
-* Code Composure Studio Project, with code written in c for the CC3200.
+* SendToEventHub - Code Composure Studio Project, with code written in c for the CC3200.
+* sastokengenerate - Windows Forms Application Project written in C#. This will generate a SAS Token
 * Root Certificate Authority for Azure Services.
-* C# code which can be used to create a Shared Access Token.
 
 **Misc Folder Contents**
 * Architectural diagram.

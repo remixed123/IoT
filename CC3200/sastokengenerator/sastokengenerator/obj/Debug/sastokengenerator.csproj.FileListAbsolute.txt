@@ -1,0 +1,13 @@
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\sastokengenerator.exe.config
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\sastokengenerator.exe
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\sastokengenerator.pdb
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\Microsoft.ServiceBus.dll
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\Microsoft.WindowsAzure.Configuration.dll
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\Microsoft.ServiceBus.xml
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Debug\Microsoft.WindowsAzure.Configuration.xml
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Debug\sastokengenerator.csprojResolveAssemblyReference.cache
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Debug\sastokengenerator.Form1.resources
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Debug\sastokengenerator.Properties.Resources.resources
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Debug\sastokengenerator.csproj.GenerateResource.Cache
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Debug\sastokengenerator.exe
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Debug\sastokengenerator.pdb

@@ -1,0 +1,16 @@
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\sastokengenerator.exe.config
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\sastokengenerator.exe
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\sastokengenerator.pdb
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\Microsoft.ServiceBus.dll
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\Microsoft.WindowsAzure.Configuration.dll
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\Microsoft.ServiceBus.xml
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\Microsoft.WindowsAzure.Configuration.xml
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.Form1.resources
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.Properties.Resources.resources
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.csproj.GenerateResource.Cache
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.exe
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.pdb
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\sastokengenerator.exe.manifest
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\bin\Release\sastokengenerator.application
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.exe.manifest
+c:\users\glenn\documents\visual studio 2013\Projects\sastokengenerator\sastokengenerator\obj\Release\sastokengenerator.application
