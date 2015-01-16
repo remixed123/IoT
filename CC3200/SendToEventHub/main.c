@@ -2,7 +2,7 @@
 //
 // Application Name        - SendToEventHub
 // Application Version     - 1.5.1
-// Application Modify Date - 12th of January 2015
+// Application Modify Date - 16th of January 2015
 // Application Developer   - Glenn Vassallo
 // Application Repository  - https://github.com/remixed123/IoT
 // Application Overview    - This is a sample application demonstrating the
@@ -11,7 +11,7 @@
 //                           utilising Event Hubs REST API over SSL/TLS. The
 //                           application also retrieves the time from a SNTP
 //                           server periodically, this helps to ensure that
-//                           SSL connection will function.
+//                           SSL/TLS connection will function.
 // Application History     - The SendToEventHub example code has been created
 //                           through modifying and including code from the SSL
 //                           and Get_TIME examples that are provided with the
@@ -66,7 +66,7 @@
 //*****************************************************************************
 
 #define APPLICATION_NAME        "SendToEventHub"
-#define APPLICATION_VERSION     "1.5.0"
+#define APPLICATION_VERSION     "1.5.1"
 
 #define OSI_STACK_SIZE          4096
 
@@ -134,7 +134,7 @@
 #define CLHEADER1 "Content-Length: "
 #define CLHEADER2 "\r\n\r\n"
 #define DATA1 "{\"MessageType\":\"CC3200 Sensor\",\"Temp\":"
-#define DATA2 ",\"Humidity\":50,\"Location\":\"Your Location\",\"Room\":\"Your Room\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
+#define DATA2 ",\"Humidity\":50,\"Location\":\"YourLocation\",\"Room\":\"YourRoom\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
 
 //*****************************************************************************
 //              Application specific status/error codes
