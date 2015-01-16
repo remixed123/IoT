@@ -1,7 +1,7 @@
 //*****************************************************************************
 //
 // Application Name        - SendToEventHub
-// Application Version     - 1.5.0
+// Application Version     - 1.5.1
 // Application Modify Date - 12th of January 2015
 // Application Developer   - Glenn Vassallo
 // Application Repository  - https://github.com/remixed123/IoT
@@ -87,7 +87,7 @@
 // you will need to setup a timer.
 //
 //*****************************************************************************
-#define SLEEP_TIME            20 //This is in seconds (approximately), change this to set your delay time
+#define SLEEP_TIME            10 //This is in seconds (approximately), change this to set your delay time
 #define SEC_TO_LOOP(x)        ((80000000/5)*x)
 
 //*****************************************************************************
@@ -134,7 +134,7 @@
 #define CLHEADER1 "Content-Length: "
 #define CLHEADER2 "\r\n\r\n"
 #define DATA1 "{\"MessageType\":\"CC3200 Sensor\",\"Temp\":"
-#define DATA2 ",\"Humidity\":50,\"Location\":\"Glenn's Home\",\"Room\":\"Kitchen\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
+#define DATA2 ",\"Humidity\":50,\"Location\":\"Your Location\",\"Room\":\"Your Room\",\"Info\":\"Sent from CC3200 LaunchPad\"}"
 
 //*****************************************************************************
 //              Application specific status/error codes
@@ -630,7 +630,7 @@ long GetCurrentTime()
 			// Configure the recieve timeout
 			//
 			struct SlTimeval_t timeVal;
-			timeVal.tv_sec =  30; //SERVER_RESPONSE_TIMEOUT;    // Seconds
+			timeVal.tv_sec =  SERVER_RESPONSE_TIMEOUT;    // Seconds
 			timeVal.tv_usec = 0;     // Microseconds. 10000 microseconds resolution
 			lRetVal = sl_SetSockOpt(g_sAppData.iSockID,SL_SOL_SOCKET,SL_SO_RCVTIMEO, (unsigned char*)&timeVal, sizeof(timeVal));
 			if(lRetVal < 0)
@@ -724,7 +724,7 @@ long PostEventHubSSL()
     }
 
     //
-    // Configure the socket as TLS (SSLV3.0 does not work because of POODLE)
+    // Configure the socket as TLS (SSLV3.0 does not work because of POODLE - http://en.wikipedia.org/wiki/POODLE)
     //
     lRetVal = sl_SetSockOpt(iSSLSockID, SL_SOL_SOCKET, SL_SO_SECMETHOD, &ucMethod, sizeof(ucMethod));
     if(lRetVal < 0)
@@ -790,7 +790,7 @@ long PostEventHubSSL()
     // Obtains the MCU temperature
     //
 	TMP006DrvGetTemp(&fCurrentTemp);
-    float cCurrentTemp = (((fCurrentTemp - 32) * 5) / 9) - 15; // Will need to calibrate temperature sensor by adding or subtracting
+    float cCurrentTemp = (((fCurrentTemp - 32) * 5) / 9) - 5; // Will need to calibrate temperature sensor by adding or subtracting
 
     char  cTempChar[5];
     sprintf(cTempChar, "%.2f", cCurrentTemp);
@@ -855,7 +855,7 @@ long PostEventHubSSL()
 	}
 	else
 	{
-		UART_PRINT("Successfully received HTTP POST response\n\r");
+		UART_PRINT("HTTP POST Successful. Telemetry successfully logged\n\r");
 	}
 
     sl_Close(iSSLSockID);
@@ -922,6 +922,9 @@ void MainTask(void *pvParameters)
     SecurityParams.Key = (signed char *)SECURITY_KEY;
     SecurityParams.KeyLen = strlen(SECURITY_KEY);
     SecurityParams.Type = SECURITY_TYPE;
+
+    // Saves a policy so that reconnection occurs
+	lRetVal = sl_WlanProfileAdd(SSID_NAME,strlen(SSID_NAME),0,&SecurityParams,0,1,0);
 
     //
     // Connect to the Access Point
