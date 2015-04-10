@@ -144,7 +144,6 @@
 									<listOptionValue builtIn="false" value="&quot;${PROJECT_LOC}/driverlib/MSP432P4xx&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${PROJECT_LOC}/spi_cc3100&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${PROJECT_LOC}/uart_cc3100&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${PROJECT_LOC}/mqtt&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.MSP432_5.2.compilerID.ADVICE__POWER.1315776399" name="Enable checking of ULP power rules (--advice:power)" superClass="com.ti.ccstudio.buildDefinitions.MSP432_5.2.compilerID.ADVICE__POWER" value="all" valueType="string"/>
 								<option id="com.ti.ccstudio.buildDefinitions.MSP432_5.2.compilerID.DIAG_WARNING.1797734893" name="Treat diagnostic &lt;id&gt; as warning (--diag_warning, -pdsw)" superClass="com.ti.ccstudio.buildDefinitions.MSP432_5.2.compilerID.DIAG_WARNING" valueType="stringList">

@@ -26,32 +26,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "driverlib.h"
 #include "simplelinklibrary.h"
 #include "simplelink.h"
 #include "sl_common.h"
 
-/*
- * Values for below macros shall be modified per the access-point's (AP) properties
- * SimpleLink device will connect to following AP when the application is executed
- */
-#define SSID_NAME       "YourSSID"       /* Access point name to connect to. */
-#define SEC_TYPE        SL_SEC_TYPE_WPA_WPA2     /* Security type of the Access piont */
-#define PASSKEY         "YourPasscode"   /* Password in case of secure AP */
-#define PASSKEY_LEN     pal_Strlen(PASSKEY)      /* Password length in case of secure AP */
-
-#define APPLICATION_VERSION "1.0.0"
-
-#define SL_STOP_TIMEOUT        0xFF
-
 //*****************************************************************************
 //                       APPLICATION DETAIL DEFINES
 //*****************************************************************************
+#define SSID_NAME       "YourSSID"      			/* Access point name to connect to. */
+#define SEC_TYPE        SL_SEC_TYPE_WPA_WPA2     	/* Security type of the Access piont */
+#define PASSKEY         "YourPasscode"   			/* Password in case of secure AP */
+#define PASSKEY_LEN     pal_Strlen(PASSKEY)      	/* Password length in case of secure AP */
 
+#define APPLICATION_VERSION 	"1.0.0"
 #define APPLICATION_NAME        "MSP432_Azure"
-//#define APPLICATION_VERSION     "1.5.1"
 
+#define SL_STOP_TIMEOUT        	0xFF
 #define OSI_STACK_SIZE          4096
 
 //*****************************************************************************
@@ -71,14 +64,13 @@
 // you will need to setup a timer.
 //
 //*****************************************************************************
-#define SLEEP_TIME            30 //This is in seconds (approximately), change this to set your delay time
+#define SLEEP_TIME            48000 //48000 is approximately 1 minute, change this to set your delay time
 
 //*****************************************************************************
 //                       CERTIFICATE LOCATION DEFINE
 //
 // You will need to include an SSL Certificate Authority file to be able to
-// send SSL/TLS packets to Event Hub. Further details can be found at the
-// wiki -
+// send SSL/TLS packets to Event Hub. Further details can be found at the wiki
 //
 //*****************************************************************************
 
@@ -128,19 +120,9 @@ typedef enum{
     STATUS_CODE_MAX = -0xBB8
 }e_AppStatusCodes;
 
-//#define min(X,Y) ((X) < (Y) ? (X) : (Y))
-
-
 /*
  * GLOBAL VARIABLES -- Start
  */
-/* Button debounce state variables */
-volatile unsigned int S1buttonDebounce = 0;
-volatile unsigned int S2buttonDebounce = 0;
-volatile int publishID = 0;
-
-//char macStr[18];        // Formatted MAC Address String
-//char uniqueID[9];       // Unique ID generated from TLV RAND NUM and MAC Address
 
 _u32  g_Status = 0;
 
@@ -172,7 +154,7 @@ int timeDifference = 0;
 //!    ##   For more SNTP server link visit 'http://tf.nist.gov/tf-cgi/servers.cgi'
 //!    ##   Or search Internet for SNTP servers in your region
 //!    ###################################################################################
-const char g_acSNTPserver[30] = "tic.ntp.telstra.net"; //Add any SNTP server
+const char g_acSNTPserver[30] = "nist1-nj2.ustiming.org"; //"tic.ntp.telstra.net"; //Add any SNTP server
 
 // Tuesday is the 1st day in 2013 - the relative year
 const char g_acDaysOfWeek2013[7][3] = {{"Tue"},{"Wed"},{"Thu"},{"Fri"},{"Sat"},{"Sun"},{"Mon"}};
@@ -197,11 +179,9 @@ SlSockAddr_t sAddr;
 SlSockAddrIn_t sLocalAddr;
 
 
-
 /*
  * GLOBAL VARIABLES -- End
  */
-
 
 /*
  * STATIC FUNCTION DEFINITIONS -- Start
@@ -746,9 +726,15 @@ long PostEventHubSSL()
         return lRetVal;
     }
 
-    // Set temperature, you could have a sensor providing this.
-    char  cTempChar[5] = "24.56";
-    //sprintf(cTempChar, "%.2f", cCurrentTemp);
+    //
+    // Generate a random number for the temperture
+    //
+    srand((unsigned int)time(NULL));
+    float a = 5.0;
+    float fRandTemp = 25 - (((float)rand()/(float)(RAND_MAX)) * a);
+
+    char  cTempChar[5];
+    sprintf(cTempChar, "%.2f", fRandTemp);
 
     //
     // Creates the HTTP POST string.
