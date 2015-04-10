@@ -1,6 +1,6 @@
 **IoT Readme**
 
-This repository contains code and other resources for the Azure End to End IoT Proof of Concept found at this website - http://ssmlwf.azurewebsites.net/
+This repository contains code and other resources for the Azure End to End IoT Proof of Concept found at this website - http://www.azurelaunchpads.net/
 
 Instructions on setting up the IoT example in your own environment can be found on the wiki here - https://github.com/remixed123/IoT/wiki
 
